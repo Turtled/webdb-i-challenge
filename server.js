@@ -1,9 +1,20 @@
-const express = require('express');
+var express = require('express')
+var bodyParser = require('body-parser')
+var server = express()
 
-const db = require('./data/dbConfig.js');
+const accountRouter = require('./AccountRouter');
 
-const server = express();
+server.get('/', (req, res) => {
+  res.send(`<h2>Welcome to the BEST API ever created.</h2>`)
+});
 
-server.use(express.json());
+//custom middleware
+// parse application/x-www-form-urlencoded
+server.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+server.use(bodyParser.json())
+
+server.use('/api/accounts', accountRouter);
 
 module.exports = server;
